@@ -12,12 +12,14 @@ Distributed with MIT license.
 
 From: http://www.v2ex.com/t/158484
 
-改了上面这个script，放入油猴可用
-可以简单实现 xpath 选择并隐藏元素，css select 的支持就懒得研究了
-例如可以在本页输入 //img 试试
+改了上面这个script，放入油猴可用 <br>
+可以简单实现 xpath 选择并隐藏元素，css select 的支持就懒得研究了 <br>
+例如可以在本页输入 `//img` 试试 <br>
+
 兼容性不好，某些有后台ajax刷新的网页会出现跳转或关闭
+
 无版权、无著作权，一切权利归原作者，改了@name只是为了不冲突，谁要修改自用自便，转发请参考原作者的声明
 
 另外有兴趣的人可以装这个玩
-https://addons.mozilla.org/en-US/firefox/addon/element-locator-for-webdriv
+    https://addons.mozilla.org/en-US/firefox/addon/element-locator-for-webdriv
 提取网页元素的xpath，支持多种语言的格式
