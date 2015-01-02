@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name        xpath-prototyping
-// @namespace   wtf-is-namespace
+// @name	xpath-hide-element
+// @namespace	wtf-is-namespace
 // @description HTML data mining
-// @version     0.1
-// @grant       none
+// @version	0.1
+// @grant	none
 // ==/UserScript==
 
 var FIREBUG_MODE = true;
@@ -63,6 +63,24 @@ function drawFromPath(path) {
 		} else {
 			list[i].style.background = '#FFFFA0';
 		}
+	}
+}
+
+function hideFromPath(path) {
+	var list = lookupElementsByXPath(path);
+	unStyle();
+	for (var i = 0; i < list.length; ++i) {
+		reverseStyle.push([list[i], list[i].style.cssText]);
+		list[i].style.display = 'none';
+	}
+}
+
+function showFromPath(path) {
+	var list = lookupElementsByXPath(path);
+	unStyle();
+	for (var i = 0; i < list.length; ++i) {
+		reverseStyle.push([list[i], list[i].style.cssText]);
+		list[i].style.display = 'block';
 	}
 }
 
@@ -201,8 +219,10 @@ window.addEventListener("load", function () {
 					</div>\
 				</td>\
 				<td style=\"padding:0px; width: 6px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAiCAIAAAACmGSyAAAABGdBTUEAALGPC/xhBQAAAUhJREFUOE910mtPgmAUwPGnD9Cr1NYU75hpAhpeEBBFQARFVMx7pq6mW+sr9NXD1XbO3Dj7vftvZzvbubm9T5Gg2Xz/BCG6dwxCtOkhCHG2X9bqrHl7dfJ+hYRj6cxz1V6e1fG+4+4wQmWZCJX1c3/x2R5tMZLIV2I0G46m7dVJGa6xS/PdPSSs5UkerDBo/k7JXmDQzPmH2J9j0Hqvx6Y5w6AZ3kEwphg0fbpv6BMMWne8q3VdDDX3raqOMGiqs+HbQwxax1m/KAMMmjJcllsWBq1lLzjJxKDJ1pwVexg0yZwxgo5BE3teqaFh0JrGpFhXMWiCPi5UOxi0huY+8QoGra46+YqMXRqV40LRFN8e5MoSRuKPXCROU3SJbRo028RIKJr0Q1nq5zgxywgYqcgm0+jSrJAp1a+QdLEWhCQLfJD/G/4++Mov51bLSPWQBGkAAAAASUVORK5CYII=);\"></td>\
-				<td style=\"padding-left: 10px; padding-right: 10px; width: 37px; vertical-align: middle;\">\
-					<a id=\"getjson\" href=\"#\" style=\"font-size: 10pt; text-decoration: none; color: #D0D0D0;\" onmouseout=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #D0D0D0;';\" onmouseover=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #5080FF; text-shadow: 0 0 3px #5080FF;';\">JSON</a>\
+				<td style=\"padding-left: 10px; padding-right: 10px; width: 130px; vertical-align: middle;\">\
+					<a id=\"hideAll\" href=\"#\" style=\"font-size: 10pt; text-decoration: none; color: #D0D0D0;\" onmouseout=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #D0D0D0;';\" onmouseover=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #5080FF; text-shadow: 0 0 3px #5080FF;';\"> HIDE </a>\
+					<a id=\"showAll\" href=\"#\" style=\"font-size: 10pt; text-decoration: none; color: #D0D0D0;\" onmouseout=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #D0D0D0;';\" onmouseover=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #5080FF; text-shadow: 0 0 3px #5080FF;';\"> SHOW </a>\
+					<a id=\"closethis\" href=\"#\" style=\"font-size: 10pt; text-decoration: none; color: #D0D0D0;\" onmouseout=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #D0D0D0;';\" onmouseover=\"this.style.cssText='font-size: 10pt; text-decoration: none; color: #5080FF; text-shadow: 0 0 3px #5080FF;';\"> CLOSE </a>\
 				</td>\
 			</tr>\
 		</table>\
@@ -216,17 +236,24 @@ window.addEventListener("load", function () {
 			drawFromPath(xpath);
 		}
 	});
-	document.getElementById("getjson").addEventListener("click", function (event) {
+	document.getElementById("hideAll").addEventListener("click", function (event) {
 		var xpath = document.getElementById("xpath").value;
-		if (xpath == "") return false;
-		var list = lookupElementsByXPath(xpath);
-		var ret = [];
-		for (var i = 0; i < list.length; ++i)
-			ret.push(list[i].innerHTML);
-		var json = JSON.stringify(ret, null, 2);
-		//var b64 = "data:application/json," + Base64.encode(json); 
-		//window.open(b64, "_blank");
-		prompt("Result", json);
+		if (xpath == "") {
+			unStyle();
+		} else {
+			hideFromPath(xpath);
+		}
+	});
+	document.getElementById("showAll").addEventListener("click", function (event) {
+		var xpath = document.getElementById("xpath").value;
+		if (xpath == "") {
+			unStyle();
+		} else {
+			showFromPath(xpath);
+		}
+	});
+	document.getElementById("closethis").addEventListener("click", function (event) {
+		document.getElementById("xpather").style.display="none";
 		return false;
 	});
 });
